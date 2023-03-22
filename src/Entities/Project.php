@@ -20,7 +20,7 @@ class Project
         $this->isOverdue = $this->calculateIsOverdue();
     }
 
-    private function calculateIsOverdue(): bool|null
+    private function calculateIsOverdue(): ?bool
     {
         $currentDate = new DateTime();
         if($this->deadline !== null) {
@@ -31,7 +31,7 @@ class Project
     }
 
     // getIsOverdue() is purely for unit testing
-    public function getIsOverdue(): bool|null
+    public function getIsOverdue(): ?bool
     {
         return $this->isOverdue;
     }
