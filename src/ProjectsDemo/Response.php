@@ -1,31 +1,22 @@
 <?php
 
 namespace ProjectManagementApi\ProjectsDemo;
-
 use JsonSerializable;
 
 class Response implements JsonSerializable {
-    public function __constructor($message, $data) {}
+    
+    private array $data;
+    private string $message;
 
-    public function jsonSerialize(): mixed {
+    public function __construct($message, $data) {
+        $this->data = $data;
+        $this->message = $message;
+    }
+
+    public function jsonSerialize() {
         return [
-            'message' => 'Successfully retrieved projects',
-            'data' => [
-                [
-                    "id" => "17",
-                    "name" => "Overhold",
-                    "client_id" => "7",
-                    "deadline" => "30/06/2022", // "06-30-2022" if locale=us
-                    "overdue" => true
-                ],
-                [
-                    "id" => "18",
-                    "name" => "Wrapsafe",
-                    "client_id" => "18",
-                    "deadline" => "28/03/2024",
-                    "overdue" => false
-                ]
-            ]
+            'message' => $this->message,
+            'data' => $this->data
         ];
     }
 }

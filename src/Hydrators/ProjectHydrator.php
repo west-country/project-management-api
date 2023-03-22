@@ -4,13 +4,8 @@ namespace ProjectManagementApi\Hydrators;
 
 use DateTime;
 
-// these need to be deleted when the classes are created
-use PDO as DatabaseConnection;
-use ProjectManagementApi\Hydrators\ProjectHydratorDemo\Project;
-
-// uncomment the below when ready to replace the above
-// use ProjectManagementApi\DatabaseConnection; 
-// use ProjectManagementApi\Entities\Project; 
+use ProjectManagementApi\DatabaseConnection; 
+use ProjectManagementApi\Entities\Project; 
 
 class ProjectHydrator
 {
