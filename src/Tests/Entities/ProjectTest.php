@@ -46,6 +46,19 @@ class ProjectTest extends TestCase
         $actualOutput = $testProject->getIsOverdue();
         $expectedOutput = null;
         $this->assertEquals($expectedOutput, $actualOutput); 
-    }    
+    }
+    
+    public function testSuccessToAssociativeArrayFewerProperties()
+    {
+        $deadline = new DateTime('12/21/2012');
+        $testProject = new Project(1, 'name', 1, $deadline);
+        $expectedOutput = ['id' => '1', 
+                            'name' => 'name', 
+                            'client_id' => '1', 
+                            'deadline' => $deadline->format('d/m/Y'), 
+                            'overdue' => true];
+        $actualOutput = $testProject->toAssociativeArrayFewerProperties();
+        $this->assertEquals($expectedOutput, $actualOutput);
+    }
 }
 

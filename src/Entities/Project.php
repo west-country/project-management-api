@@ -1,6 +1,7 @@
 <?php
 
 namespace ProjectManagementApi\Entities;
+
 use DateTime;
 
 class Project
@@ -23,7 +24,7 @@ class Project
     private function calculateIsOverdue(): ?bool
     {
         $currentDate = new DateTime();
-        if($this->deadline !== null) {
+        if ($this->deadline !== null) {
             return $this->deadline < $currentDate;
         } else {
             return null;
@@ -38,7 +39,13 @@ class Project
 
     public function toAssociativeArrayFewerProperties(): array
     {
-        return ['id' => $this->id, 'name' => $this->name, 'client_id' => $this->client_id, 'deadline' => $this->deadline, 'overdue' => $this->isOverdue];
+
+        return [
+            'id' => strval($this->id),
+            'name' => $this->name, 
+            'client_id' => strval($this->client_id),
+            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
+            'overdue' => $this->isOverdue
+        ];
     }
 }
-
