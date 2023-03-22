@@ -1,7 +1,6 @@
 <?php
 
 namespace ProjectManagementApi\Entities;
-
 use DateTime;
 
 class Project
