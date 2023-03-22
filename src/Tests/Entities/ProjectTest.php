@@ -54,7 +54,7 @@ class ProjectTest extends TestCase
                             'id' => '1', 
                             'name' => 'name', 
                             'client_id' => '1', 
-                            'deadline' => $deadline->format('d/m/Y'), 
+                            'deadline' => '21/12/2012', 
                             'overdue' => true
                         ];
         $actualOutput = $testProject->toAssociativeArrayFewerProperties();
