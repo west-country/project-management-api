@@ -10,17 +10,42 @@ require '../../../vendor/autoload.php';
 
 class ProjectTest extends TestCase
 {
-    public function testSuccessConstructor_OverdueTrue()
+    public function testSuccessConstructor_overdueTrue()
     {
         $currentDate = new DateTime();
+        //creating a deadline that is 1 year before the current date
         $deadline = new DateTime();
         $dateInterval = new DateInterval('P1Y');
-        $dateInterval->invert=1;
+        $dateInterval->invert = 1;
         $deadline->add($dateInterval);
+        
         $testProject = new Project(1, 'name', 1, $deadline);
         $actualOutput = $testProject->getIsOverdue();
         $expectedOutput = true;
         $this->assertEquals($expectedOutput, $actualOutput);
     }
+
+    public function testSuccessConstructor_overdueFalse()
+    {
+        $currentDate = new DateTime();
+        //creating a deadline that is 1 year after the current date
+        $deadline = new DateTime();
+        $dateInterval = new DateInterval('P1Y');
+        $deadline->add($dateInterval);
+        
+        $testProject = new Project(1, 'name', 1, $deadline);
+        $actualOutput = $testProject->getIsOverdue();
+        $expectedOutput = false;
+        $this->assertEquals($expectedOutput, $actualOutput);  
+    }
+
+    public function testSuccessConstructor_overdueNull()
+    {
+        $deadline = null;
+        $testProject = new Project(1, 'name', 1, $deadline);
+        $actualOutput = $testProject->getIsOverdue();
+        $expectedOutput = null;
+        $this->assertEquals($expectedOutput, $actualOutput); 
+    }    
 }
 
