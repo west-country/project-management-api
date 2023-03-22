@@ -48,5 +48,4 @@ class ProjectHydrator
 
 //the below code was used to test the class, but will not be part of the final thing.
 $databaseArray = ProjectHydrator::getAllProjects($db);
-
 print_R($databaseArray);
