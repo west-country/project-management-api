@@ -48,7 +48,7 @@ class ProjectTest extends TestCase
     
     public function testSuccessToAssociativeArrayFewerProperties()
     {
-        $deadline = new DateTime('12/21/2012');
+        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
         $testProject = new Project(1, 'name', 1, $deadline);
         $expectedOutput = [
                             'id' => '1', 
