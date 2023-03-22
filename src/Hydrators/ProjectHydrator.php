@@ -11,8 +11,7 @@ class ProjectHydrator
 {
     public static function getAllProjects(DatabaseConnection $db)
     {
-        $query = $db->prepare('SELECT id, `name`, client_id, deadline FROM projects');
-        $query->execute();
+        $query = $db->query('SELECT id, `name`, client_id, deadline FROM projects');
         $projectsArray = $query->fetchAll();
         $projectObjectsArray = [];
         foreach ($projectsArray as $projectItem) {
