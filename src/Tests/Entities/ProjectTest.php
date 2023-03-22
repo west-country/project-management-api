@@ -12,7 +12,6 @@ class ProjectTest extends TestCase
 {
     public function testSuccessConstructor_overdueTrue()
     {
-        $currentDate = new DateTime();
         //creating a deadline that is 1 year before the current date
         $deadline = new DateTime();
         $dateInterval = new DateInterval('P1Y');
@@ -27,7 +26,6 @@ class ProjectTest extends TestCase
 
     public function testSuccessConstructor_overdueFalse()
     {
-        $currentDate = new DateTime();
         //creating a deadline that is 1 year after the current date
         $deadline = new DateTime();
         $dateInterval = new DateInterval('P1Y');
@@ -52,11 +50,13 @@ class ProjectTest extends TestCase
     {
         $deadline = new DateTime('12/21/2012');
         $testProject = new Project(1, 'name', 1, $deadline);
-        $expectedOutput = ['id' => '1', 
+        $expectedOutput = [
+                            'id' => '1', 
                             'name' => 'name', 
                             'client_id' => '1', 
                             'deadline' => $deadline->format('d/m/Y'), 
-                            'overdue' => true];
+                            'overdue' => true
+                        ];
         $actualOutput = $testProject->toAssociativeArrayFewerProperties();
         $this->assertEquals($expectedOutput, $actualOutput);
     }
