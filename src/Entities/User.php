@@ -1,6 +1,6 @@
 <?php
 
-namespace ProjectManagementApi\Entities\Users;
+namespace ProjectManagementApi\Entities;
 
 class User {
     private int $id;
