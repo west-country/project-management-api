@@ -3,6 +3,8 @@
 namespace ProjectManagementApi\Hydrators;
 
 // this is used in order to test that our code works
+
+use DateTime;
 use PDO; 
 
 // because there is no DatabaseConnection class, we need to connect to the db
@@ -19,7 +21,7 @@ class Project
     private int $id;
     private string $name;
     private string $client_id;
-    private ?string $deadline;
+    private ?DateTime $deadline;
 
     public function __construct($id, $name, $client_id, $deadline)
     {
@@ -27,6 +29,7 @@ class Project
         $this->name = $name;
         $this->client_id = $client_id;
         $this->deadline = $deadline;
+        
     }
 }
 
@@ -34,12 +37,13 @@ class ProjectHydrator
 {
     public static function getAllProjects($db)
     {
-        $query = $db->prepare('SELECT id, name, client_id, deadline FROM projects');
+        $query = $db->prepare('SELECT id, `name`, client_id, deadline FROM projects');
         $query->execute();
         $projectsArray = $query->fetchAll();
         $projectObjectsArray = [];
         foreach ($projectsArray as $projectItem) {
-            $project = new Project($projectItem['id'], $projectItem['name'], $projectItem['client_id'], $projectItem['deadline']);
+            $project = new Project($projectItem['id'], $projectItem['name'], $projectItem['client_id'],  
+            is_null($projectItem['deadline']) ? null : new DateTime($projectItem['deadline']));
             $projectObjectsArray[] = $project;
         }
         return $projectObjectsArray;
