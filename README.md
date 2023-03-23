@@ -1,5 +1,13 @@
 # Project manager API
 
+## Setup instructions
+
+This API runs on the iO Academy docker infrastructure (see [the docker-image repository](https://github.com/iO-Academy/docker-image/)).
+
+1. Run `composer dump-autoload`
+2. Import `db/project_manager.sql` into MariaDB
+3. Test against the [example frontend](https://github.com/iO-Academy/project-manager-fe)
+
 ## API documentation
 
 This API only supports GET requests.
