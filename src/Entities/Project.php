@@ -1,6 +1,7 @@
 <?php
 
 namespace ProjectManagementApi\Entities;
+
 use DateTime;
 
 class Project
@@ -11,19 +12,19 @@ class Project
     private ?DateTime $deadline;
     private ?bool $isOverdue;
 
-    public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline)
+    public function __construct(int $id, string $name, int $client_id, ?string $deadline)
     {
         $this->id = $id;
         $this->name = $name;
         $this->client_id = $client_id;
-        $this->deadline = $deadline;
+        $this->deadline =  is_null($deadline) ? null : new DateTime($deadline);
         $this->isOverdue = $this->calculateIsOverdue();
     }
 
-    private function calculateIsOverdue(): bool|null
+    private function calculateIsOverdue(): ?bool
     {
         $currentDate = new DateTime();
-        if($this->deadline !== null) {
+        if ($this->deadline !== null) {
             return $this->deadline < $currentDate;
         } else {
             return null;
@@ -31,14 +32,20 @@ class Project
     }
 
     // getIsOverdue() is purely for unit testing
-    public function getIsOverdue(): bool|null
+    public function getIsOverdue(): ?bool
     {
         return $this->isOverdue;
     }
 
     public function toAssociativeArrayFewerProperties(): array
     {
-        return ['id' => $this->id, 'name' => $this->name, 'client_id' => $this->client_id, 'deadline' => $this->deadline, 'overdue' => $this->isOverdue];
+
+        return [
+            'id' => strval($this->id),
+            'name' => $this->name, 
+            'client_id' => strval($this->client_id),
+            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
+            'overdue' => $this->isOverdue
+        ];
     }
 }
-
