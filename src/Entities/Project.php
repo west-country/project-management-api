@@ -36,7 +36,8 @@ class Project
     {
         foreach ($users as $user) {
             if (!($user instanceof User)) {
-                throw new InvalidUserArrayDatatypeException("Input must be instances of User class\n");
+                throw new InvalidUserArrayDatatypeException('Incorrect datatype in $users argument of Project constructor.
+                 Expected array of User objects. We found: ' . gettype($user) . '\n');
             }
         }
     }

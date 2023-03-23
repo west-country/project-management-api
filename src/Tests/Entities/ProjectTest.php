@@ -75,7 +75,7 @@ class ProjectTest extends TestCase
         $this->expectException(InvalidUserArrayDatatypeException::class);
         $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $bananaArray);
     }
-    
+
     public function testSuccessToAssociativeArrayFewerProperties()
     {
         $deadline = '2012-12-21';
@@ -121,9 +121,9 @@ class ProjectTest extends TestCase
             'client_name' => 'client name',
             'client_logo' => 'http://dummyimage.com/200x200.png/ff4444/ffffff',
             'users' => [
-                ['id' => 1, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role'],
-                ['id' => 2, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role'],
-                ['id' => 3, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
+                ['id' => '1', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role'],
+                ['id' => '2', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role'],
+                ['id' => '3', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
             ]
         ];
         $actualOutput = $testProject->toAssociativeArrayAllProperties();
