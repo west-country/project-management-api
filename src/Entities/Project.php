@@ -8,15 +8,15 @@ class Project
     private int $id;
     private string $name;
     private int $client_id;
-    private ?DateTime $deadline;
+    private ?string $deadline;
     private ?bool $isOverdue;
 
-    public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline)
+    public function __construct(int $id, string $name, int $client_id, ?string $deadline)
     {
         $this->id = $id;
         $this->name = $name;
         $this->client_id = $client_id;
-        $this->deadline = $deadline;
+        $this->deadline = new DateTime($deadline);
         $this->isOverdue = $this->calculateIsOverdue();
     }
 

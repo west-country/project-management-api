@@ -11,17 +11,17 @@ class ProjectHydrator
     public static function getAllProjects(DatabaseConnection $db)
     {
         $query = $db->query('SELECT id, `name`, client_id, deadline FROM projects');
-        $projectsArray = $query->fetchAll();
-        $projectObjectsArray = [];
-        foreach ($projectsArray as $projectItem) {
+        $projects = $query->fetchAll();
+        $projectObjects = [];
+        foreach ($projects as $projectItem) {
             $projectObject = new Project(
                 $projectItem['id'],
                 $projectItem['name'],
                 $projectItem['client_id'],
-                is_null($projectItem['deadline']) ? null : new DateTime($projectItem['deadline'])
+                is_null($projectItem['deadline']) ? null : $projectItem['deadline']
             );
-            $projectObjectsArray[] = $projectObject;
+            $projectObjects[] = $projectObject;
         }
-        return $projectObjectsArray;
+        return $projectObjects;
     }
 }
