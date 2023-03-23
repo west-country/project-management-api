@@ -19,7 +19,7 @@ class ProjectHydrator
                 $projectItem['id'],
                 $projectItem['name'],
                 $projectItem['client_id'],
-                is_null($projectItem['deadline']) ? null : $projectItem['deadline']
+                $projectItem['deadline']
             );
             $projectObjects[] = $projectObject;
         }

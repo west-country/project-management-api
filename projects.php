@@ -13,14 +13,14 @@ header('Content-Type: application/json');
 try {
     $db = new DatabaseConnection('mysql:host=db; dbname=project_manager', 'root', 'password');
 
-    $projectObjectsArray = ProjectHydrator::getAllProjects($db);
+    $projectObjects = ProjectHydrator::getAllProjects($db);
 
     $arrayOfProjectsAsAssociativeArrays = [];
-    foreach ($projectObjectsArray as $projectObject) {
+    foreach ($projectObjects as $projectObject) {
         $arrayOfProjectsAsAssociativeArrays[] = $projectObject->toAssociativeArrayFewerProperties();
     }
 
-    $response = new Response('Sucessfully retrieved projects', $arrayOfProjectsAsAssociativeArrays);
+    $response = new Response('Successfully retrieved projects', $arrayOfProjectsAsAssociativeArrays);
     http_response_code(200);
     echo json_encode($response);
 

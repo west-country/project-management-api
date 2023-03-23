@@ -17,7 +17,7 @@ class Project
         $this->id = $id;
         $this->name = $name;
         $this->client_id = $client_id;
-        $this->deadline = new DateTime($deadline);
+        $this->deadline =  is_null($deadline) ? null : new DateTime($deadline);
         $this->isOverdue = $this->calculateIsOverdue();
     }
 
