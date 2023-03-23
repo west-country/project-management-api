@@ -3,8 +3,8 @@
 namespace ProjectManagementApi\Entities;
 
 use DateTime;
-
-use ProjectManagementApi\User;
+use InvalidUserArrayDatatypeException;
+use ProjectManagementApi\Entities\User;
 
 class Project
 {
@@ -17,16 +17,28 @@ class Project
     private ?string $client_logo;
     private ?array $users;
 
-    public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline, ?string $client_name, ?string $client_logo, ?array $users)
+    public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline, ?string $client_name = null, ?string $client_logo = null, ?array $users = null)
     {
+        if($users != null){
+            $this->validateUsersArray($users);
+        }
         $this->id = $id;
         $this->name = $name;
         $this->client_id = $client_id;
         $this->deadline = $deadline;
         $this->isOverdue = $this->calculateIsOverdue();
         $this->client_name = $client_name;
-        $this->$client_logo = $client_logo;
+        $this->client_logo = $client_logo;
         $this->users = $users;
+    }
+
+    private function validateUsersArray(array $users)
+    {
+        foreach($users as $user) {
+            if(!($user instanceof User)){
+            throw new InvalidUserArrayDatatypeException("Invalid user array\n");
+        }
+        }
     }
 
     private function calculateIsOverdue(): ?bool
@@ -53,7 +65,7 @@ class Project
             //this method comes from User class
             $users[] = $user->toAssociativeArray();
         }
-        
+
         return [
             'id' => strval($this->id),
             'name' => $this->name, 
@@ -61,8 +73,8 @@ class Project
             'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
             'overdue' => $this->isOverdue,
             'client_name' => $this->client_name,
-            'client_logo' => $this->client_logo,
-            'user' => $users
+            'client_logo' => (empty($this->client_logo)) ? '' : $this->client_logo,
+            'users' => $users
         ];
     }
 
