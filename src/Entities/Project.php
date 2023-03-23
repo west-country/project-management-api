@@ -37,7 +37,7 @@ class Project
         return $this->isOverdue;
     }
 
-    public function toAssociativeArrayFewerProperties(): array
+    public function toAssociativeArray(): array
     {
 
         return [
