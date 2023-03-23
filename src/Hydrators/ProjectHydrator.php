@@ -39,7 +39,7 @@ class ProjectHydrator
         if($projectArray === []) {
             throw new InvalidProjectIdException; 
         }
-        $users = UserHydrator::getUsersbyProjectId($id);
+        $users = UserHydrator::getUsersbyProjectId($db, $id);
         $projectArray['users'] = $users;
         
         $project = new Project(
