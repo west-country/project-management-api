@@ -17,7 +17,7 @@ class Project
     private ?string $client_logo;
     private ?array $users;
 
-    public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline, ?string $client_name = null, ?string $client_logo = null, ?array $users = null)
+    public function __construct(int $id, string $name, int $client_id, ?string $deadline, ?string $client_name = null, ?string $client_logo = null, ?array $users = null)
     {
         if ($users != null) {
             $this->validateUsersArray($users);
@@ -25,7 +25,7 @@ class Project
         $this->id = $id;
         $this->name = $name;
         $this->client_id = $client_id;
-        $this->deadline = $deadline;
+        $this->deadline = is_null($deadline) ? null : new DateTime($deadline) ;
         $this->isOverdue = $this->calculateIsOverdue();
         $this->client_name = $client_name;
         $this->client_logo = $client_logo;
@@ -57,6 +57,13 @@ class Project
         return $this->isOverdue;
     }
 
+    // getDeadline() is purely for unit testing
+    public function getDeadline(): ?DateTime
+    {
+        return $this->deadline;
+    }
+
+        
     public function toAssociativeArrayAllProperties(): array
     {
         $users = [];

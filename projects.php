@@ -17,7 +17,7 @@ try {
 
     $projectsAsAssociativeArrays = [];
     foreach ($projectObjects as $projectObject) {
-        $projectsAsAssociativeArrays[] = $projectObject->toAssociativeArray();
+        $projectsAsAssociativeArrays[] = $projectObject->toAssociativeArrayFewerProperties();
     }
 
     $response = new Response('Successfully retrieved projects', $projectsAsAssociativeArrays);

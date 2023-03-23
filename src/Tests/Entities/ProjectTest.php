@@ -79,7 +79,7 @@ class ProjectTest extends TestCase
             'deadline' => '21/12/2012',
             'overdue' => true
         ];
-        $actualOutput = $testProject->toAssociativeArray();
+        $actualOutput = $testProject->toAssociativeArrayFewerProperties();
         $this->assertEquals($expectedOutput, $actualOutput);
     }
 
@@ -90,8 +90,8 @@ class ProjectTest extends TestCase
         $testUserTwo = new User(2, 'name', 'avatar', 'role');
         $testUserThree = new User(3, 'name', 'avatar', 'role');
         array_push($testUsers, $testUserOne, $testUserTwo, $testUserThree);
-        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
-        $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $testUserArray);
+        $deadline = '2012-12-21' ;
+        $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $testUsers);
         $expectedOutput = [
                             'id' => '1', 
                             'name' => 'name', 
@@ -112,7 +112,7 @@ class ProjectTest extends TestCase
     public function testFailureConstructor_IncorrectUserArrayDataType()
     {
         $bananaArray = ['banana' => 'banana', 'bananas' => 'bananas'];
-        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
+        $deadline = '2012-12-21' ;
         $this->expectException(InvalidUserArrayDatatypeException::class);
         $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $bananaArray);
     }
