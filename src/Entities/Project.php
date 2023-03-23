@@ -9,7 +9,7 @@ class Project
     private int $id;
     private string $name;
     private int $client_id;
-    private ?string $deadline;
+    private ?DateTime $deadline;
     private ?bool $isOverdue;
 
     public function __construct(int $id, string $name, int $client_id, ?string $deadline)

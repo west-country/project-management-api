@@ -18,7 +18,7 @@ class ProjectTest extends TestCase
         $dateInterval->invert = 1;
         $deadline->add($dateInterval);
         
-        $testProject = new Project(1, 'name', 1, $deadline);
+        $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
         $actualOutput = $testProject->getIsOverdue();
         $expectedOutput = true;
         $this->assertEquals($expectedOutput, $actualOutput);
@@ -31,7 +31,7 @@ class ProjectTest extends TestCase
         $dateInterval = new DateInterval('P1Y');
         $deadline->add($dateInterval);
         
-        $testProject = new Project(1, 'name', 1, $deadline);
+        $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
         $actualOutput = $testProject->getIsOverdue();
         $expectedOutput = false;
         $this->assertEquals($expectedOutput, $actualOutput);  
@@ -48,7 +48,7 @@ class ProjectTest extends TestCase
     
     public function testSuccessToAssociativeArrayFewerProperties()
     {
-        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
+        $deadline = '2012-12-21';
         $testProject = new Project(1, 'name', 1, $deadline);
         $expectedOutput = [
                             'id' => '1', 
