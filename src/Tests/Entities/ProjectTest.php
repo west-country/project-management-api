@@ -2,7 +2,6 @@
 
 namespace ProjectManagementApi\Tests\Entities;
 
-use DateInterval;
 use DateTime;
 use ProjectManagementApi\Exceptions\InvalidUserArrayDatatypeException;
 use ProjectManagementApi\Entities\User;
@@ -14,52 +13,73 @@ class ProjectTest extends TestCase
 {
     public function testSuccessConstructor_overdueTrue()
     {
-        //creating a deadline that is 1 year before the current date
         $deadline = new DateTime();
-        $dateInterval = new DateInterval('P1Y');
-        $dateInterval->invert = 1;
-        $deadline->add($dateInterval);
+        $deadline->modify('-1 day');
         
-        $testProject = new Project(1, 'name', 1, $deadline);
-        $actualOutput = $testProject->getIsOverdue();
-        $expectedOutput = true;
-        $this->assertEquals($expectedOutput, $actualOutput);
+        $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
+        $actualIsOverdue = $testProject->getIsOverdue();
+        $expectedIsOverdue = true;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
-
+    
     public function testSuccessConstructor_overdueFalse()
     {
-        //creating a deadline that is 1 year after the current date
         $deadline = new DateTime();
-        $dateInterval = new DateInterval('P1Y');
-        $deadline->add($dateInterval);
+        $deadline->modify('+1 day');
         
-        $testProject = new Project(1, 'name', 1, $deadline);
-        $actualOutput = $testProject->getIsOverdue();
-        $expectedOutput = false;
-        $this->assertEquals($expectedOutput, $actualOutput);  
+        $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
+        $actualIsOverdue = $testProject->getIsOverdue();
+        $expectedIsOverdue = false;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
 
     public function testSuccessConstructor_overdueNull()
     {
         $deadline = null;
         $testProject = new Project(1, 'name', 1, $deadline);
-        $actualOutput = $testProject->getIsOverdue();
-        $expectedOutput = null;
-        $this->assertEquals($expectedOutput, $actualOutput); 
+        $actualIsOverdue = $testProject->getIsOverdue();
+        $expectedIsOverdue = null;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
     
-    public function testSuccessToAssociativeArrayFewerProperties()
+    public function testSuccessConstructor_deadlineDate()
     {
-        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
+        $deadlineString = '1989-02-06';
+        $testProject = new Project(1,'name', 1, $deadlineString);
+        $actualDeadline = $testProject->getDeadline();
+        $expectedDeadline = new DateTime($deadlineString);
+        $this->assertEquals($expectedDeadline, $actualDeadline);
+    }
+
+    public function testSuccessConstructor_deadlineNull()
+    {
+        $deadlineString = null;
+        $testProject = new Project(1,'name', 1, $deadlineString);
+        $actualDeadline = $testProject->getDeadline();
+        $expectedDeadline = null;
+        $this->assertEquals($expectedDeadline, $actualDeadline);
+    }
+
+    public function testFailureConstructor_deadlineInvalid()
+    {   
+        $deadlineString = 'banana';
+        $this->expectException(\Exception::class);
+        $testProject = new Project(1,'name', 1, $deadlineString);
+            
+    }
+
+    public function testSuccessToAssociativeArray()
+    {
+        $deadline = '2012-12-21';
         $testProject = new Project(1, 'name', 1, $deadline);
         $expectedOutput = [
-                            'id' => '1', 
-                            'name' => 'name', 
-                            'client_id' => '1', 
-                            'deadline' => '21/12/2012', 
-                            'overdue' => true
-                        ];
-        $actualOutput = $testProject->toAssociativeArrayFewerProperties();
+            'id' => '1',
+            'name' => 'name',
+            'client_id' => '1',
+            'deadline' => '21/12/2012',
+            'overdue' => true
+        ];
+        $actualOutput = $testProject->toAssociativeArray();
         $this->assertEquals($expectedOutput, $actualOutput);
     }
 
@@ -97,4 +117,3 @@ class ProjectTest extends TestCase
         $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $bananaArray);
     }
 }
-

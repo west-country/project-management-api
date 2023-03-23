@@ -54,10 +54,7 @@ class Project
     // getIsOverdue() is purely for unit testing
     public function getIsOverdue(): ?bool
     {
-        return $this->isOverdue;
-    }
-
-    public function toAssociativeArrayAllProperties(): array
+   sociativeArrayAllProperties(): array
     {   
         $usersAsAssociativeArrays = [];
 
