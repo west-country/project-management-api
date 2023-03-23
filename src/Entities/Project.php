@@ -3,7 +3,7 @@
 namespace ProjectManagementApi\Entities;
 
 use DateTime;
-use InvalidUserArrayDatatypeException;
+use ProjectManagementApi\Exceptions\InvalidUserArrayDatatypeException;
 use ProjectManagementApi\Entities\User;
 
 class Project

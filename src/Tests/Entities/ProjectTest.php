@@ -4,6 +4,7 @@ namespace ProjectManagementApi\Tests\Entities;
 
 use DateInterval;
 use DateTime;
+use ProjectManagementApi\Exceptions\InvalidUserArrayDatatypeException;
 use ProjectManagementApi\Entities\User;
 use ProjectManagementApi\Entities\Project;
 use PHPUnit\Framework\TestCase;
@@ -89,7 +90,10 @@ class ProjectTest extends TestCase
 
     public function testFailureConstructor_IncorrectUserArrayDataType()
     {
-        
+        $bananaArray = ['banana' => 'banana', 'bananas' => 'bananas'];
+        $deadline = DateTime::createFromFormat('d/m/Y', '21/12/2012');
+        $this->expectException(InvalidUserArrayDatatypeException::class);
+        $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $bananaArray);
     }
 }
 
