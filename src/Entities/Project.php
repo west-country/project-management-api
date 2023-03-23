@@ -19,7 +19,7 @@ class Project
 
     public function __construct(int $id, string $name, int $client_id, ?DateTime $deadline, ?string $client_name = null, ?string $client_logo = null, ?array $users = null)
     {
-        if($users != null){
+        if ($users != null) {
             $this->validateUsersArray($users);
         }
         $this->id = $id;
@@ -35,9 +35,9 @@ class Project
     private function validateUsersArray(array $users)
     {
         foreach($users as $user) {
-            if(!($user instanceof User)){
-            throw new InvalidUserArrayDatatypeException("Invalid user array\n");
-        }
+            if (!($user instanceof User)) {
+                throw new InvalidUserArrayDatatypeException("Invalid user array\n");
+            }
         }
     }
 
@@ -59,11 +59,10 @@ class Project
 
     public function toAssociativeArrayAllProperties(): array
     {   
-        $usersArray = $this->users;
+        $usersAsAssociativeArrays = [];
 
-        foreach($usersArray as $user){
-            //this method comes from User class
-            $users[] = $user->toAssociativeArray();
+        foreach($this->users as $user){
+            $usersAsAssociativeArrays[] = $user->toAssociativeArray();
         }
 
         return [
@@ -73,8 +72,8 @@ class Project
             'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
             'overdue' => $this->isOverdue,
             'client_name' => $this->client_name,
-            'client_logo' => (empty($this->client_logo)) ? '' : $this->client_logo,
-            'users' => $users
+            'client_logo' => $this->client_logo,
+            'users' => $usersAsAssociativeArrays
         ];
     }
 
