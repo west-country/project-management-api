@@ -37,6 +37,11 @@ class Project
         return $this->isOverdue;
     }
 
+    public function getDeadline(): ?DateTime
+    {
+        return $this->deadline;
+    }
+
     public function toAssociativeArray(): array
     {
 
