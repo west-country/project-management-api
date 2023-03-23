@@ -36,7 +36,7 @@ class Project
     {
         foreach ($users as $user) {
             if (!($user instanceof User)) {
-                throw new InvalidUserArrayDatatypeException("Invalid user array\n");
+                throw new InvalidUserArrayDatatypeException("Input must be instances of User class\n");
             }
         }
     }

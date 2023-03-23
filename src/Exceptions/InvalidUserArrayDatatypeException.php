@@ -2,7 +2,6 @@
 
 namespace ProjectManagementApi\Exceptions;
 
-class InvalidUserArrayDatatypeException extends \Exception
-{
+use Exception;
 
-}
+class InvalidUserArrayDatatypeException extends Exception { }

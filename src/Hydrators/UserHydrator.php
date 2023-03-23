@@ -12,7 +12,8 @@ class UserHydrator
         $query = $db->prepare(
             'SELECT users.id, `name`, avatar, `role` '
                 . 'FROM users JOIN project_users '
-                . 'ON users.id = user_id AND project_id = :project_id'
+                . 'ON users.id = user_id '
+                . 'WHERE project_id = :project_id'
         );
         $query->execute(['project_id' => $id]);
         $users = $query->fetchAll();
