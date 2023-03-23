@@ -15,12 +15,12 @@ try {
 
     $projectObjects = ProjectHydrator::getAllProjects($db);
 
-    $arrayOfProjectsAsAssociativeArrays = [];
+    $projectsAsAssociativeArrays = [];
     foreach ($projectObjects as $projectObject) {
-        $arrayOfProjectsAsAssociativeArrays[] = $projectObject->toAssociativeArrayFewerProperties();
+        $projectsAsAssociativeArrays[] = $projectObject->toAssociativeArray();
     }
 
-    $response = new Response('Successfully retrieved projects', $arrayOfProjectsAsAssociativeArrays);
+    $response = new Response('Successfully retrieved projects', $projectsAsAssociativeArrays);
     http_response_code(200);
     echo json_encode($response);
 

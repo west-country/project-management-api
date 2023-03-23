@@ -37,7 +37,13 @@ class Project
         return $this->isOverdue;
     }
 
-    public function toAssociativeArrayFewerProperties(): array
+    // getDeadline() is purely for unit testing
+    public function getDeadline(): ?DateTime
+    {
+        return $this->deadline;
+    }
+
+    public function toAssociativeArray(): array
     {
 
         return [
