@@ -9,6 +9,10 @@ This API runs on the iO Academy docker infrastructure (see [the docker-image rep
 2. Import `db/project_manager.sql` into the `project_manager` database
 3. Test against the [example frontend](https://github.com/iO-Academy/project-manager-fe)
 
+## Unit testing
+
+To run unit tests in this project, run `phpunit . ` from the project root directory
+
 ## API documentation
 
 This API only supports GET requests.
