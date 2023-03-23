@@ -4,8 +4,10 @@ namespace ProjectManagementApi\Hydrators;
 
 use DateTime;
 
-use ProjectManagementApi\DatabaseConnection; 
-use ProjectManagementApi\Entities\Project; 
+use ProjectManagementApi\DatabaseConnection;
+use ProjectManagementApi\Entities\Project;
+use ProjectManagementApi\Hydrators\UserHydrator;
+use ProjectManagementApi\Exceptions\InvalidProjectIdException;
 
 class ProjectHydrator
 {
@@ -26,5 +28,29 @@ class ProjectHydrator
         return $projectObjects;
     }
 
-    
+    public static function getProjectById(DatabaseConnection $db, int $id)
+    {
+        $queryProjectAndClient = $db->prepare('SELECT id, `name`, client_id, client_name, client_logo, deadline 
+                            FROM projects INNER JOIN clients 
+                            ON projects.client_id = clients.id 
+                            WHERE id=:id');
+        $queryProjectAndClient->execute(['id' => $id]);
+        $projectArray = $queryProjectAndClient->fetch();
+        if($projectArray === []) {
+            throw new InvalidProjectIdException; 
+        }
+        $users = UserHydrator::getUsersbyProjectId($id);
+        $projectArray['users'] = $users;
+        
+        $project = new Project(
+                    $projectArray['id'], 
+                    $projectArray['name'],
+                    $projectArray['client_id'],
+                    $projectArray['deadline'],
+                    $projectArray['client_name'],
+                    $projectArray['client_logo'], 
+                    $projectArray['users']
+                    );
+        return($project);
+    }
 }
