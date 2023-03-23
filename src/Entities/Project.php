@@ -37,6 +37,12 @@ class Project
         return $this->isOverdue;
     }
 
+    // getDeadline() is purely for unit testing
+    public function getDeadline(): ?DateTime
+    {
+        return $this->deadline;
+    }
+
     public function toAssociativeArray(): array
     {
 

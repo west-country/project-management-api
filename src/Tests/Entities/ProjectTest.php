@@ -2,7 +2,6 @@
 
 namespace ProjectManagementApi\Tests\Entities;
 
-use DateInterval;
 use DateTime;
 use ProjectManagementApi\Entities\Project;
 use PHPUnit\Framework\TestCase;
@@ -15,22 +14,22 @@ class ProjectTest extends TestCase
     {
         $deadline = new DateTime();
         $deadline->modify('-1 day');
-
+        
         $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
         $actualIsOverdue = $testProject->getIsOverdue();
-        $expectedIsOverdu = true;
-        $this->assertEquals($expectedIsOverdu, $actualIsOverdue);
+        $expectedIsOverdue = true;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
-
+    
     public function testSuccessConstructor_overdueFalse()
     {
         $deadline = new DateTime();
         $deadline->modify('+1 day');
-
+        
         $testProject = new Project(1, 'name', 1, $deadline->format('Y-m-d'));
         $actualIsOverdue = $testProject->getIsOverdue();
-        $expectedIsOverdu = false;
-        $this->assertEquals($expectedIsOverdu, $actualIsOverdue);
+        $expectedIsOverdue = false;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
 
     public function testSuccessConstructor_overdueNull()
@@ -38,8 +37,34 @@ class ProjectTest extends TestCase
         $deadline = null;
         $testProject = new Project(1, 'name', 1, $deadline);
         $actualIsOverdue = $testProject->getIsOverdue();
-        $expectedIsOverdu = null;
-        $this->assertEquals($expectedIsOverdu, $actualIsOverdue);
+        $expectedIsOverdue = null;
+        $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
+    }
+    
+    public function testSuccessConstructor_deadlineDate()
+    {
+        $deadlineString = '1989-02-06';
+        $testProject = new Project(1,'name', 1, $deadlineString);
+        $actualDeadline = $testProject->getDeadline();
+        $expectedDeadline = new DateTime($deadlineString);
+        $this->assertEquals($expectedDeadline, $actualDeadline);
+    }
+
+    public function testSuccessConstructor_deadlineNull()
+    {
+        $deadlineString = null;
+        $testProject = new Project(1,'name', 1, $deadlineString);
+        $actualDeadline = $testProject->getDeadline();
+        $expectedDeadline = null;
+        $this->assertEquals($expectedDeadline, $actualDeadline);
+    }
+
+    public function testFailureConstructor_deadlineInvalid()
+    {   
+        $deadlineString = 'banana';
+        $this->expectException(\Exception::class);
+        $testProject = new Project(1,'name', 1, $deadlineString);
+            
     }
 
     public function testSuccessToAssociativeArray()
