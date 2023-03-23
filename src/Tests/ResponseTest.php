@@ -2,7 +2,7 @@
 
 namespace ProjectManagementApi\Tests;
 
-require '../../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use ProjectManagementApi\Response;
