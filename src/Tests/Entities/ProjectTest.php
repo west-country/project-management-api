@@ -96,17 +96,17 @@ class ProjectTest extends TestCase
         $testUsers = [];
         $testUserOne = $this->createMock(User::class);
         $testUserOne->method('toAssociativeArray')->willReturn(
-            ['id' => 1, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
+            ['id' => '1', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
         );
 
         $testUserTwo = $this->createMock(User::class);
         $testUserTwo->method('toAssociativeArray')->willReturn(
-            ['id' => 2, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
+            ['id' => '2', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
         );
 
         $testUserThree = $this->createMock(User::class);
         $testUserThree->method('toAssociativeArray')->willReturn(
-            ['id' => 3, 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
+            ['id' => '3', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
         );
 
         array_push($testUsers, $testUserOne, $testUserTwo, $testUserThree);
