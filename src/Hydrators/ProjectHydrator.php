@@ -30,12 +30,10 @@ class ProjectHydrator
 
     public static function getProjectById(DatabaseConnection $db, int $id)
     {
-        // as discussed with Amyas, the id referred to by select is ambigious and may confuse the query, so projects.id would remove the ambiguity
-        $queryProjectAndClient = $db->prepare('SELECT id, `name`, client_id, client_name, client_logo, deadline 
-                            FROM projects INNER JOIN clients 
-                            ON projects.client_id = clients.id 
-                            WHERE id=:id');
-                            // for above - same as the other comment
+        $queryProjectAndClient = $db->prepare('SELECT projects.id, projects.name, client_id, clients.name AS client_name, clients.logo AS client_logo, deadline 
+                                                FROM projects INNER JOIN clients 
+                                                ON projects.client_id = clients.id 
+                                                WHERE projects.id=:id');
         $queryProjectAndClient->execute(['id' => $id]);
         $projectArray = $queryProjectAndClient->fetch();
         if($projectArray === []) {
