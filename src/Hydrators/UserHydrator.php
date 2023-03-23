@@ -5,12 +5,12 @@ namespace ProjectManagementApi\Hydrators;
 use ProjectManagementApi\DatabaseConnection;
 use ProjectManagementApi\Entities\User;
 
-class UserHydrator 
+class UserHydrator
 {
-    public static function getUsersByProjectId (DatabaseConnection $db, int $id): array
+    public static function getUsersByProjectId(DatabaseConnection $db, int $id): array
     {
-        $query = $db->prepare('SELECT users.id, `name`, avatar, `role` FROM users JOIN project_users ON project_id = :project_id');
-        $query->execute(['project_id'=>$id]);
+        $query = $db->prepare('SELECT users.id, `name`, avatar, `role` FROM users JOIN project_users ON users.id = user_id AND project_id = :project_id');
+        $query->execute(['project_id' => $id]);
         $usersArray = $query->fetchAll();
         $userObjectsArray = [];
         foreach ($usersArray as $userItem) {
@@ -23,6 +23,5 @@ class UserHydrator
             $userObjectsArray[] = $userObject;
         }
         return $userObjectsArray;
-
     }
 }
