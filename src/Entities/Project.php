@@ -34,7 +34,7 @@ class Project
 
     private function validateUsersArray(array $users)
     {
-        foreach($users as $user) {
+        foreach ($users as $user) {
             if (!($user instanceof User)) {
                 throw new InvalidUserArrayDatatypeException("Invalid user array\n");
             }
@@ -54,23 +54,26 @@ class Project
     // getIsOverdue() is purely for unit testing
     public function getIsOverdue(): ?bool
     {
-   sociativeArrayAllProperties(): array
-    {   
-        $usersAsAssociativeArrays = [];
+        return $this->isOverdue;
+    }
 
-        foreach($this->users as $user){
-            $usersAsAssociativeArrays[] = $user->toAssociativeArray();
+    public function toAssociativeArrayAllProperties(): array
+    {
+        $users = [];
+
+        foreach ($this->users as $user) {
+            $users[] = $user->toAssociativeArray();
         }
 
         return [
             'id' => strval($this->id),
-            'name' => $this->name, 
+            'name' => $this->name,
             'client_id' => strval($this->client_id),
-            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
+            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'),
             'overdue' => $this->isOverdue,
             'client_name' => $this->client_name,
             'client_logo' => $this->client_logo,
-            'users' => $usersAsAssociativeArrays
+            'users' => $users
         ];
     }
 
@@ -79,9 +82,9 @@ class Project
 
         return [
             'id' => strval($this->id),
-            'name' => $this->name, 
+            'name' => $this->name,
             'client_id' => strval($this->client_id),
-            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'), 
+            'deadline' => is_null($this->deadline) ? null : $this->deadline->format('d/m/Y'),
             'overdue' => $this->isOverdue
         ];
     }
