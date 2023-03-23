@@ -6,6 +6,10 @@ use ProjectManagementApi\DatabaseConnection;
 use ProjectManagementApi\Hydrators\ProjectHydrator;
 use ProjectManagementApi\Response;
 
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
+
 try {
     $db = new DatabaseConnection('mysql:host=db; dbname=project_manager', 'root', 'password');
 
@@ -17,13 +21,11 @@ try {
     }
 
     $response = new Response('Sucessfully retrieved projects', $arrayOfProjectsAsAssociativeArrays);
-    header('Content-Type: application/json');
     http_response_code(200);
     echo json_encode($response);
 
 } catch (Exception $exception) {
     $response = new Response('Unexpected error', []);
-    header('Content-Type: application/json');
     http_response_code(500);
     echo json_encode($response);
 }
