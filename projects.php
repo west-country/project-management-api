@@ -2,15 +2,11 @@
 
 require 'vendor/autoload.php';
 
-// these need to be deleted when the classes are created
-use ProjectManagementApi\ProjectsDemo\Response;
-
 use ProjectManagementApi\DatabaseConnection;
 use ProjectManagementApi\Hydrators\ProjectHydrator;
+use ProjectManagementApi\Response;
 
 try {
-    //uncomment the line below and comment the line below that to tests error catching
-    // $db = new DatabaseConnection('mysql:host=db; dbname=banana', 'root', 'password');
     $db = new DatabaseConnection('mysql:host=db; dbname=project_manager', 'root', 'password');
 
     $projectObjectsArray = ProjectHydrator::getAllProjects($db);
