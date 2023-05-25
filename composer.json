@@ -1,7 +1,16 @@
 {
-	"autoload": {
-		"psr-4": {
+    "name": "garrincha4/project-management-api",
+    "autoload": {
+        "psr-4": {
 			"ProjectManagementApi\\": "src/"
-		}
-	}
+        }
+    },
+    "authors": [
+        {
+            "name": "west-country",
+            "email": "turvill@hotmail.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
 }
