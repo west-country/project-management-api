@@ -7,7 +7,6 @@ use ProjectManagementApi\Entities\User;
 
 use PDO;
 
-
 class UserHydrator
 {
     public static function getUsersByProjectId(PDO $pdo, int $id): array

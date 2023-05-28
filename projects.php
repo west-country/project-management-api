@@ -6,7 +6,6 @@ require 'vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-use ProjectManagementApi\DatabaseConnection;
 use ProjectManagementApi\Hydrators\ProjectHydrator;
 use ProjectManagementApi\Response;
 
@@ -23,16 +22,16 @@ if (isset($_GET['id'])) {
 
 // if (isset($_GET['locale'])) {
 //     $locale = strtoupper($_GET['locale']);
-//     if ($locale == "US") {
-//         $localeIsUSA = true;
-//     } else if ($locale == "UK") {
-//         $localeIsUSA = false;
-//     } else {
-//         $response = new Response("Invalid locale");
-//         $response->issueResponse(400);
-//         // http_response_code(400);
-//         // $response = json_encode($response, JSON_PRETTY_PRINT);
-//         // exit($response);
+//     switch ($locale) {
+//         case "US":
+//             $localeIsUSA = true;
+//             break;
+//         case "UK":
+//             $localeIsUSA = false;
+//             break;
+//         default:
+//             $response = new Response("Invalid locale");
+//             $response->issueResponse(400);
 //     }
 // } else {
 //     $localeIsUSA = false;
@@ -40,39 +39,27 @@ if (isset($_GET['id'])) {
 
 if (isset($_GET['locale'])) {
     $locale = strtoupper($_GET['locale']);
-    switch ($locale) {
-        case "US":
-            $localeIsUSA = true;
-            break;
-        case "UK":
-            $localeIsUSA = false;
-            break;
-        default:
-            $response = new Response("Invalid locale");
-            $response->issueResponse(400);
+    if ($locale !== "US" && $locale !== "UK") {
+        $response = new Response("Invalid locale");
+        $response->issueResponse(400);
     }
 } else {
-    $localeIsUSA = false;
+    $locale = "UK";
 }
 
-if (isset($_GET['id'])) {
-    if (!filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
+if (isset($_GET['client'])) {
+    if (!filter_var($_GET['client'], FILTER_VALIDATE_INT)) {
         $response = new Response("Invalid client ID");
         $response->issueResponse(400);
     } else {
-        $client_id = $_GET['id'];
-        $projectObjects = ProjectHydrator::getProjectsByClient($pdo, $client_id, $localeIsUSA);
-        print_r($projectObjects);
-
+        $client_id = $_GET['client'];
+        $projectObjects = ProjectHydrator::getProjectsByClient($pdo, $client_id, $locale);
         $response = new Response('Successfully retrieved project', $projectObjects);
         $response->issueResponse(200);
     }
 } else {
-    echo "is not set\n";
-    $projectObjects = ProjectHydrator::getAllProjects($pdo);
-    print_r($projectObjects);
-
-    $response = new Response('Successfully retrieved project', $projectObjects);
+    $projectObjects = ProjectHydrator::getAllProjects($pdo, $locale);
+    $response = new Response('Successfully retrieved projects', $projectObjects);
     $response->issueResponse(200);
 }
 

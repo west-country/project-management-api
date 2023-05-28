@@ -15,10 +15,10 @@ class Response implements JsonSerializable
         $this->data = $data;
     }
 
-    public function issueResponse(int $code)
+    public function issueResponse(int $code): void
     {
         http_response_code($code);
-        $response = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $response = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         if ($code == 200) {
             echo $response;
         } else {

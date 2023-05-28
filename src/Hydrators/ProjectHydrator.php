@@ -3,7 +3,6 @@
 namespace ProjectManagementApi\Hydrators;
 
 use PDO;
-use DateTime;
 use ProjectManagementApi\Entities\Project;
 use ProjectManagementApi\Hydrators\UserHydrator;
 use ProjectManagementApi\Exceptions\InvalidProjectIdException;
@@ -12,21 +11,22 @@ use ProjectManagementApi\Response;
 
 class ProjectHydrator
 {
-    public static function getAllProjects(PDO $pdo, int $id = null, bool $localeIsUSA = false)
+    public static function getAllProjects(PDO $pdo, string $locale): array
     {
         $pdoStmt = $pdo->query('SELECT id, `name`, client_id, deadline FROM ProjectManagement.projects');
         $projects = $pdoStmt->fetchAll(PDO::FETCH_CLASS, Project::Class);
 
         foreach ($projects as $project) {
-            $project->convertDeadlineToDatetime();
+            // $project->convertDeadlineToDatetime();
+            // $project->__setIsOverdue();
+            // $project->formatDeadline($localeIsUSA);
             $project->__setIsOverdue();
-            $project->formatDeadline($localeIsUSA);
-            // $project?->convertDeadlineToDatetime()->__setIsOverdue()->formatDeadline($localeIsUSA);
+            $project->handleLocale($locale);
         }
         return $projects;
     }
 
-    public static function getProjectsByClient(PDO $pdo, int $id = null, bool $localeIsUSA = false)
+    public static function getProjectsByClient(PDO $pdo, int $id = null, string $locale): array
     {
         $pdoStmt = $pdo->prepare('SELECT id, `name`, client_id, deadline 
         FROM ProjectManagement.projects WHERE client_id = :id');
@@ -43,14 +43,16 @@ class ProjectHydrator
         }
 
         foreach ($projects as $project) {
-            $project->convertDeadlineToDatetime();
+            // $project->convertDeadlineToDatetime();
+            // $project->__setIsOverdue();
+            // $project->formatDeadline($localeIsUSA);
             $project->__setIsOverdue();
-            $project->formatDeadline($localeIsUSA);
+            $project->handleLocale($locale);
         }
         return $projects;
     }
 
-    public static function getProjectById(PDO $pdo, int $id, bool $localeIsUSA = false)
+    public static function getProjectById(PDO $pdo, int $id, string $locale): Project
     {
         $pdoStmt = $pdo->prepare('SELECT projects.id, projects.name, client_id, clients.name AS client_name, clients.logo AS client_logo, deadline 
         FROM ProjectManagement.projects INNER JOIN ProjectManagement.clients 
@@ -67,14 +69,15 @@ class ProjectHydrator
             // throw new InvalidProjectIdException("Invalid project Id!");
             $response = new Response("Invalid project ID");
             $response->issueResponse(400);
-            // http_response_code(400);
-            // $response = json_encode($response, JSON_PRETTY_PRINT);
-            // exit($response);
         }
 
-        $project->convertDeadlineToDatetime();
+        // $project->convertDeadlineToDatetime();
+        // $project->__setIsOverdue();
+        // $project->formatDeadline($localeIsUSA);
+
         $project->__setIsOverdue();
-        $project->formatDeadline($localeIsUSA);
+        $project->handleLocale($locale);
+
         $users = UserHydrator::getUsersbyProjectId($pdo, $id);
         $project->__setUsers($users);
         return $project;
