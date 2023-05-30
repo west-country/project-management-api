@@ -2,7 +2,8 @@
 
 namespace ProjectManagementApi\Hydrators;
 
-use PDO;
+use \PDO;
+use \PDOException;
 use ProjectManagementApi\Entities\Project;
 use ProjectManagementApi\Hydrators\UserHydrator;
 use ProjectManagementApi\Exceptions\InvalidProjectIdException;
@@ -28,19 +29,16 @@ class ProjectHydrator
 
     public static function getProjectsByClient(PDO $pdo, int $id = null, string $locale): array
     {
+        try {
         $pdoStmt = $pdo->prepare('SELECT id, `name`, client_id, deadline 
         FROM ProjectManagement.projects WHERE client_id = :id');
-        $pdoStmt->bindParam('id', $id, PDO::PARAM_INT);
-        $pdoStmt->execute();
+        $pdoStmt->execute(['id' => $id]);
         $projects = $pdoStmt->fetchAll(PDO::FETCH_CLASS, Project::Class);
-        if (!$projects) {
-            //throw new InvalidProjectIdException("Invalid project Id!");
-            $response = new Response("Invalid client ID");
-            $response->issueResponse(400);
-            // http_response_code(400);
-            // $response = json_encode($response, JSON_PRETTY_PRINT);
-            // exit($response);
-        }
+        // if (!$projects) {
+        //     throw new InvalidProjectIdException("Invalid project Id!");
+        //         // $response = new Response("Invalid client ID");
+        //         // $response->issueResponse(400);
+        // }
 
         foreach ($projects as $project) {
             // $project->convertDeadlineToDatetime();
@@ -50,6 +48,11 @@ class ProjectHydrator
             $project->handleLocale($locale);
         }
         return $projects;
+        } 
+        catch (\PDOException $e) {
+            $response = new Response("Unexpected error");
+     $response->issueResponse(500);
+        } 
     }
 
     public static function getProjectById(PDO $pdo, int $id, string $locale): Project

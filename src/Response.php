@@ -9,10 +9,11 @@ class Response implements JsonSerializable
     private string $message;
     private array|object $data; //private array $data
 
-    public function __construct(string $message, array|object $data = []) //array $data
+    public function __construct(string $message, array|object $data = [])
     {
         $this->message = $message;
-        $this->data = $data;
+        $this->data = is_array($data) ? $data : array($data);
+
     }
 
     public function issueResponse(int $code): void
@@ -22,7 +23,8 @@ class Response implements JsonSerializable
         if ($code == 200) {
             echo $response;
         } else {
-            exit($response);
+            echo $response;
+            //exit($response);
         }
     }
 

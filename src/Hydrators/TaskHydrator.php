@@ -5,6 +5,8 @@ namespace ProjectManagementApi\Hydrators;
 use PDO;
 use ProjectManagementApi\Entities\Task;
 use ProjectManagementApi\Response;
+use ProjectManagementApi\Exceptions\NoDataException;
+
 
 class TaskHydrator
 {
@@ -15,8 +17,9 @@ class TaskHydrator
         $tasks = $pdoStmt->fetchAll(PDO::FETCH_CLASS, Task::Class);
 
         if (!$tasks) {
-            $response = new Response("No tasks assigned to that user for this project");
-            $response->issueResponse(404);
+            throw new NoDataException("No tasks assigned to that user for this project");
+            // $response = new Response("No tasks assigned to that user for this project");
+            // $response->issueResponse(404);
         }
 
         foreach ($tasks as $task) {

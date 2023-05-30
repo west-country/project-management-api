@@ -3,14 +3,9 @@
     "autoload": {
         "psr-4": {
 			"ProjectManagementApi\\": "src/"
-        }
+        },
+        "files": ["src/bootstrap.php"]
     },
-    "authors": [
-        {
-            "name": "west-country",
-            "email": "turvill@hotmail.co.uk"
-        }
-    ],
     "minimum-stability": "dev",
     "require": {}
 }

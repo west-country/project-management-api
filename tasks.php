@@ -1,14 +1,17 @@
 <?php
 
 error_reporting(E_ALL);
-ini_set("display_errors", 1);//0 for prod.
+ini_set("display_errors", 1); //0 for prod.
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require 'src/DB.php';
+require 'src/handleParameters.php';
 require 'vendor/autoload.php';
 
+use ProjectManagementApi\Exceptions\InvalidParameterException;
+use ProjectManagementApi\Exceptions\NoDataException;
 use ProjectManagementApi\Hydrators\TaskHydrator;
 use ProjectManagementApi\Response;
 
@@ -19,33 +22,56 @@ use ProjectManagementApi\Response;
 // **Optional:**
 
 // `locale=[uk|us]`
-if (isset($_GET['locale'])) {
-    $locale = strtoupper($_GET['locale']);
-    if ($locale !== "US" && $locale !== "UK") {
-        $response = new Response("Invalid locale");
-        $response->issueResponse(400);
+// if (isset($_GET['locale'])) {
+//     $locale = strtoupper($_GET['locale']);
+//     if ($locale !== "US" && $locale !== "UK") {
+//         $response = new Response("Invalid locale");
+//         $response->issueResponse(400);
+//     }
+// } else {
+//     $locale = "UK";
+// }
+try {
+    $locale = isset($_GET['locale']) ?
+        handleLocaleParameter($_GET['locale']) :
+        "UK";
+
+    $requiredParameters = array('user_id' => 'Invalid user ID', 'project_id' => 'Invalid project ID');
+
+    foreach ($requiredParameters as $parameter => $errorMessage) {
+        $$parameter = handleRequiredNumericalParameter($parameter, $errorMessage);
     }
-} else {
-    $locale = "UK";
+    // $user_id = isset($_GET['user_id']) ?
+    //     handleRequiredNumericalParameter($_GET['user_id'], 'Invalid user ID') :
+    //     "UK";
+
+
+
+    // foreach ($requiredParameters as $parameter => $errorMessage) {
+    //     if (isset($_GET[$parameter])) {
+    //         if (!filter_var($_GET[$parameter], FILTER_VALIDATE_INT)) {
+    //             $response = new Response($errorMessage);
+    //             $response->issueResponse(400);
+    //         } else {
+    //             $$parameter = $_GET[$parameter];
+    //         }
+    //     } else {
+    //         $response = new Response($errorMessage);
+    //         $response->issueResponse(400);
+    //     }
+    // }
+
+    $taskObjects = TaskHydrator::getTasksByUserAndProjectId($pdo, $user_id, $project_id, $locale);
+    //print_r($taskObjects);
+    $response = new Response('Successfully retrieved tasks', $taskObjects);
+    $response->issueResponse(200);
+} catch (InvalidParameterException $e) {
+    $errorMessage = $e->getMessage();
+    $response = new Response($errorMessage);
+    $response->issueResponse(400);
 }
-
-$requiredParameters = array('user_id' => 'Invalid user ID', 'project_id' => 'Invalid project ID');
-
-foreach ($requiredParameters as $parameter => $errorMessage) {
-    if (isset($_GET[$parameter])) {
-        if (!filter_var($_GET[$parameter], FILTER_VALIDATE_INT)) {
-            $response = new Response($errorMessage);
-            $response->issueResponse(400);
-        } else {
-            $$parameter = $_GET[$parameter];
-        }
-    } else {
-        $response = new Response($errorMessage);
-        $response->issueResponse(400);
-    }
+catch (NoDataException $e) {
+    $errorMessage = $e->getMessage();
+    $response = new Response($errorMessage);
+    $response->issueResponse(404);
 }
-
-$taskObjects = TaskHydrator::getTasksByUserAndProjectId($pdo, $user_id, $project_id, $locale);
-print_r($taskObjects);
-$response = new Response('Successfully retrieved tasks', $taskObjects);
-$response->issueResponse(200);
