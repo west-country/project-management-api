@@ -2,10 +2,8 @@
 
 namespace ProjectManagementApi\Hydrators;
 
-use ProjectManagementApi\DatabaseConnection;
-use ProjectManagementApi\Entities\User;
-
 use PDO;
+use ProjectManagementApi\Entities\User;
 
 class UserHydrator
 {
@@ -13,7 +11,7 @@ class UserHydrator
     {
         $pdoStmt = $pdo->prepare(
             'SELECT users.id, `name`, avatar, `role` '
-                . 'FROM ProjectManagement.users JOIN project_users '
+                . 'FROM users JOIN project_users '
                 . 'ON users.id = user_id '
                 . 'WHERE project_id = :project_id'
         );
@@ -21,37 +19,5 @@ class UserHydrator
         $pdoStmt->execute();
         $users = $pdoStmt->fetchAll(PDO::FETCH_CLASS, User::Class);//|PDO::FETCH_PROPS_LATE
         return $users;
-        // $userObjects = [];
-        // foreach ($users as $userItem) {
-        //     $userObject = new User(
-        //         $userItem['id'],
-        //         $userItem['name'],
-        //         $userItem['avatar'],
-        //         $userItem['role'],
-        //     );
-        //     $userObjects[] = $userObject;
-        // }
     }
-    // public static function getUsersByProjectId(DatabaseConnection $db, int $id): array
-    // {
-    //     $query = $db->prepare(
-    //         'SELECT users.id, `name`, avatar, `role` '
-    //             . 'FROM ProjectManagement.users JOIN project_users '
-    //             . 'ON users.id = user_id '
-    //             . 'WHERE project_id = :project_id'
-    //     );
-    //     $query->execute(['project_id' => $id]);
-    //     $users = $query->fetchAll();
-    //     $userObjects = [];
-    //     foreach ($users as $userItem) {
-    //         $userObject = new User(
-    //             $userItem['id'],
-    //             $userItem['name'],
-    //             $userItem['avatar'],
-    //             $userItem['role'],
-    //         );
-    //         $userObjects[] = $userObject;
-    //     }
-    //     return $userObjects;
-    // }
 }

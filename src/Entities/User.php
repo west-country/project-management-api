@@ -11,7 +11,8 @@ class User implements JsonSerializable
     private string $avatar;
     private string $role;
 
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): mixed
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,

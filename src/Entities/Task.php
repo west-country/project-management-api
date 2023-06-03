@@ -49,9 +49,6 @@ class Task implements JsonSerializable
 
     public function __setLocaleIsUSA(string $locale): void
     {
-        // if($locale == 'US') {
-        //     $this->localeIsUSA = true;
-        // }
         $this->localeIsUSA = ($locale == 'US') ?: false;
     }
 
@@ -66,15 +63,12 @@ class Task implements JsonSerializable
 
     private function __setEstimate_Hrs(): Task
     {
-        //4hrs/point
         $this->estimate_hrs = $this->estimate * 4;
         return $this;
     }
 
     private function __setEstimate_Days(): Task
     {
-        //8hrs/day
-        //2points/day
         $this->estimate_days = $this->estimate / 2;
         return $this;
     }
@@ -94,13 +88,9 @@ class Task implements JsonSerializable
             'estimate_days' => $this->estimate_days, // if locale=us
         ], function ($projectProperty, $responseKey) {
             if ($this->localeIsUSA) {
-                // return !is_null($projectProperty) && $responseKey !== 'estimate';
                 return $responseKey !== 'estimate';
             } else {
-                //return !is_null($projectProperty);
-                // return !is_null($projectProperty) && $responseKey !== 'estimate';
                 return $responseKey !== 'estimate_hrs' && $responseKey !== 'estimate_days';
-                //|| 'estimate_days');
             }
         }, ARRAY_FILTER_USE_BOTH);
     }

@@ -2,8 +2,14 @@
 
 namespace ProjectManagementApi\Exceptions;
 
-//use Exception;
+use Exception;
+use ProjectManagementApi\Response;
 
-use \Exception as Exception;
-
-class InvalidParameterException extends Exception { }
+class InvalidParameterException extends Exception
+{
+    public function issueUserResponse(): void
+    {
+        $response = new Response($this->message);
+        $response->issueResponse(400);
+    }
+}

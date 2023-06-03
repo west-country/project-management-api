@@ -12,8 +12,7 @@ class Response implements JsonSerializable
     public function __construct(string $message, array|object $data = [])
     {
         $this->message = $message;
-        $this->data = is_array($data) ? $data : array($data);
-
+        $this->data = $data;
     }
 
     public function issueResponse(int $code): void
@@ -24,7 +23,6 @@ class Response implements JsonSerializable
             echo $response;
         } else {
             echo $response;
-            //exit($response);
         }
     }
 
