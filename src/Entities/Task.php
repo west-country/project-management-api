@@ -12,8 +12,8 @@ class Task implements JsonSerializable
     private int $user_id;
     private string $name;
     private string $description;
-    private ?int $estimate; // only if locale=uk
-    private DateTimeImmutable|string|null $deadline;
+    private ?int $estimate = null; // only if locale=uk//=null
+    private DateTimeImmutable|string|null $deadline = null;//=null
     private ?bool $isOverdue = null; //= null
     private ?int $estimate_hrs = null; //if locale=us// = null
     private ?float $estimate_days = null; // if locale=us// = null
@@ -81,7 +81,7 @@ class Task implements JsonSerializable
             'user_id' => $this->user_id,
             'name' => $this->name,
             'description' => $this->description,
-            'estimate' => $this->estimate, // only if locale=uk
+            'estimate' => $this->estimate, // if locale=uk
             'deadline' => $this->deadline,
             'overdue' => $this->isOverdue,
             'estimate_hrs' => $this->estimate_hrs, //if locale=us

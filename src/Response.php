@@ -19,11 +19,12 @@ class Response implements JsonSerializable
     {
         http_response_code($code);
         $response = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        if ($code == 200) {
-            echo $response;
-        } else {
-            echo $response;
-        }
+        echo $response;
+        // if ($code == 200) {
+        //     echo $response;
+        // } else {
+        //     echo $response;
+        // }
     }
 
     public function jsonSerialize(): mixed

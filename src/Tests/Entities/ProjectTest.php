@@ -3,12 +3,9 @@
 namespace ProjectManagementApi\Tests\Entities;
 
 use DateTimeImmutable;
-use ProjectManagementApi\Exceptions\InvalidUserArrayDatatypeException;
-use ProjectManagementApi\Entities\User;
 use ProjectManagementApi\Entities\Project;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ReflectionObject;
 
 require 'vendor/autoload.php';
 
@@ -87,7 +84,6 @@ class ProjectTest extends TestCase
         $deadline = new DateTimeImmutable('1900-12-31');
         $locale = 'US';
         $project = new Project();
-        // $project->__setDeadline($deadline);
         self::setProjectReflectionValue('deadline', $project, $deadline);
         $project->handleLocale($locale);
         $actualDeadline = self::getProjectReflectionValue('deadline', $project);
@@ -103,7 +99,6 @@ class ProjectTest extends TestCase
         $deadline = new DateTimeImmutable('1900-12-31');
         $locale = 'UK';
         $project = new Project();
-        // $project->__setDeadline($deadline);
         self::setProjectReflectionValue('deadline', $project, $deadline);
         $project->handleLocale($locale);
         $actualDeadline = self::getProjectReflectionValue('deadline', $project);
@@ -125,49 +120,13 @@ class ProjectTest extends TestCase
         $this->assertEquals($expectedDeadline, $actualDeadline);
     }
 
-    // public function testSuccessConstructor_deadlineNull()
-    // {
-    //     $deadlineString = null;
-    //     $testProject = new Project(1, 'name', 1, $deadlineString);
-    //     $actualDeadline = $testProject->getDeadline();
-    //     $expectedDeadline = null;
-    //     $this->assertEquals($expectedDeadline, $actualDeadline);
-    // }
-
-    // public function testFailureConstructor_deadlineInvalid()
-    // {
-    //     $deadlineString = 'banana';
-    //     $this->expectException(\Exception::class);
-    //     $testProject = new Project(1, 'name', 1, $deadlineString);
-    // }
-
-    public function testFailureConstructor_IncorrectUserArrayDataType()
+    public function testSuccessConvertDeadlineToDateTime_deadlineInvalid()
     {
-        $bananaArray = ['banana' => 'banana', 'bananas' => 'bananas'];
-        $deadline = '2012-12-21';
-        $this->expectException(InvalidUserArrayDatatypeException::class);
-        // $testProject = new Project(1, 'name', 1, $deadline, 'client name', 'http://dummyimage.com/200x200.png/ff4444/ffffff', $bananaArray);
-
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Failed to parse time string (foo) at position 0 (f): The timezone could not be found in the database");
+        $deadlineString = 'foo';
+        $testProject = new Project();
+        self::setProjectReflectionValue('deadline', $testProject, $deadlineString);
+        self::callReflectionMethod($testProject, 'convertDeadlineToDateTime');
     }
-
-
-
-    // public function testSuccessToAssociativeArrayAllProperties()
-    // {
-    //     $testUsers = [];
-    //     $testUserOne = $this->createMock(User::class);
-    //     $testUserOne->method('toAssociativeArray')->willReturn(
-    //         ['id' => '1', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
-    //     );
-
-    //     $testUserTwo = $this->createMock(User::class);
-    //     $testUserTwo->method('toAssociativeArray')->willReturn(
-    //         ['id' => '2', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
-    //     );
-
-    //     $testUserThree = $this->createMock(User::class);
-    //     $testUserThree->method('toAssociativeArray')->willReturn(
-    //         ['id' => '3', 'name' => 'name', 'avatar' => 'avatar', 'role' => 'role']
-    //     );
-
 }

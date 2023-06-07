@@ -4,41 +4,18 @@ namespace ProjectManagementApi\Entities;
 
 use JsonSerializable;
 use DateTimeImmutable;
-use ProjectManagementApi\Exceptions\InvalidUserArrayDatatypeException;
-use ProjectManagementApi\Entities\User;
 
 class Project implements JsonSerializable
 {
     private int $id; //
     private string $name; //
     private int $client_id; //
-    private DateTimeImmutable|string|null $deadline; //
+    private DateTimeImmutable|string|null $deadline = null; //= null
     private ?bool $isOverdue = null; //= null
     private ?string $client_name = null;
     private ?string $client_logo = null;
     private ?array $users = null;
     private bool $localeIsUSA = false;
-
-    // public function __construct(int $id, string $name, int $client_id, DateTimeImmutable|string|null $deadline, ?bool $isOverdue, ?string $client_name, ?string $client_logo, ?array $users, bool $localeIsUSA = false)
-    // {
-    //     $this->id = $id;
-    //     $this->name = $name;
-    //     $this->client_id = $client_id;
-    //     $this->deadline = $deadline;
-    //     $this->isOverdue = $isOverdue;
-    //     $this->client_name = $client_name;
-    //     $this->client_logo = $client_logo;
-    //     $this->users = $users;
-    //     $this->localeIsUSA = $localeIsUSA;
-    // }
-
-
-    //
-    // public function __setDeadline(DateTimeImmutable|string|null $deadline): void
-    // {
-    //     $this->deadline = $deadline;
-    // }
-
 
     public function __setUsers(array $users): void
     {
@@ -53,53 +30,24 @@ class Project implements JsonSerializable
         }
     }
 
-    public function __setLocaleIsUSA(string $locale): void
+    public function __setLocaleIsUSA(string $locale): void//INDIR TESTED
     {
         $this->localeIsUSA = ($locale == 'US') ?: false;
     }
 
-
-    // getIsOverdue() is purely for unit testing
-    // public function getIsOverdue(): ?bool
-    // {
-    //     return $this->isOverdue;
-    // }
-
-    // getDeadline() is purely for unit testing
-    //convert
-    // public function getDeadline(): ?DateTimeImmutable
-    // {
-    //     return $this->deadline;
-    // }
-
-    // public function getDeadline(): ?DateTimeImmutable
-    // {
-    //     return $this->deadline;
-    // }
-
-    private function convertDeadlineToDateTime(): void
+    private function convertDeadlineToDateTime(): void//INDIR TESTED
     {
         $this->deadline = new DateTimeImmutable($this->deadline);
     }
 
-    private function formatDeadline(): void
+    private function formatDeadline(): void//INDIR TESTED
     {
         $this->deadline = $this->localeIsUSA ?
             $this->deadline?->format('m/d/Y') :
             $this->deadline?->format('d/m/Y');
     }
 
-    // private function validateUsersArray(array $users)
-    // {
-    //     foreach ($users as $user) {
-    //         if (!($user instanceof User)) {
-    //             throw new InvalidUserArrayDatatypeException('Incorrect datatype in $users argument of Project constructor.
-    //              Expected array of User objects. We found: ' . gettype($user) . '\n');
-    //         }
-    //     }
-    // }
-
-    private function calculateIsOverdue(): bool
+    private function calculateIsOverdue(): bool//INDIR TESTED
     {
         $currentDate = new DateTimeImmutable();
         $projectDeadline = $this->deadline;
@@ -123,7 +71,7 @@ class Project implements JsonSerializable
                 'client_name' => $this->client_name,
                 'client_logo' => $this->client_logo,
                 'users' => $this->users,
-                'deadline' => $this->deadline ?? null,
+                'deadline' => $this->deadline, //?? null,
                 'overdue' => $this->isOverdue //?? null,
             ],
             function ($projectProperty, $responseKey) {
