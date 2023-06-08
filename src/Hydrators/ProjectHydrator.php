@@ -5,7 +5,6 @@ namespace ProjectManagementApi\Hydrators;
 use PDO;
 use ProjectManagementApi\Entities\Project;
 use ProjectManagementApi\Hydrators\UserHydrator;
-use ProjectManagementApi\Exceptions\NoDataException;
 
 class ProjectHydrator
 {
@@ -28,19 +27,8 @@ class ProjectHydrator
         FROM projects WHERE client_id = :id');
         $pdoStmt->execute(['id' => $id]);
         $projects = $pdoStmt->fetchAll(PDO::FETCH_CLASS, Project::Class);
-        // if (!$projects) {
-        //         // $response = new Response("Invalid client ID");
-        //         // $response->issueResponse(400);
-        // }
-
-        // if (!$projects) {
-        //     throw new NoDataException("No projects for this client");
-        // }
 
         foreach ($projects as $project) {
-            // $project->convertDeadlineToDatetime();
-            // $project->__setIsOverdue();
-            // $project->formatDeadline($localeIsUSA);
             $project->__setIsOverdue();
             $project->handleLocale($locale);
         }
@@ -56,15 +44,6 @@ class ProjectHydrator
         $pdoStmt->bindParam('id', $id, PDO::PARAM_INT);
         $pdoStmt->execute();
         $project = $pdoStmt->fetchObject(Project::Class);
-
-        // if (!$project) {
-        //     $response = new Response("Invalid project ID");
-        //     $response->issueResponse(400);
-        // }
-
-        // $project->convertDeadlineToDatetime();
-        // $project->__setIsOverdue();
-        // $project->formatDeadline($localeIsUSA);
 
         $project->__setIsOverdue();
         $project->handleLocale($locale);

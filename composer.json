@@ -1,10 +1,8 @@
 {
-    "name": "garrincha4/project-management-api",
     "autoload": {
         "psr-4": {
-			"ProjectManagementApi\\": "src/"
-        },
-        "files": ["src/bootstrap.php"]
+            "ProjectManagementApi\\": "src/"
+        }
     },
     "minimum-stability": "dev",
     "require": {}

@@ -2,18 +2,9 @@
 
 namespace ProjectManagementApi\Tests;
 
-use PHPUnit\Framework\TestCase;
-//use ProjectManagementApi\Exceptions\InvalidParameterException;
-use ProjectManagementApi\Exceptions\InvalidParameterException;
-//use InvalidParameterException;
-
-
-//use \InvalidParameterException;
-
-use ReflectionClass;
-
-require 'vendor/autoload.php';
 require_once 'src/handleParameters.php';
+
+use PHPUnit\Framework\TestCase;
 
 class HandleParametersTest extends TestCase
 {

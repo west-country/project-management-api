@@ -1,23 +1,16 @@
 <?php
 
-//DEVELOPMENT
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
-//PRODUCTION
-// ini_set('display_errors', 0);
-// ini_set('log_errors', 1);
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-
 require_once 'src/DB.php';
 require_once 'src/handleParameters.php';
-require_once 'vendor/autoload.php';
+require_once 'src/handleErrors.php';
+require 'vendor/autoload.php';
 
 use ProjectManagementApi\Hydrators\ProjectHydrator;
 use ProjectManagementApi\Response;
 use ProjectManagementApi\Exceptions\InvalidParameterException;
+
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
 try {
     $locale = isset($_GET['locale']) ?

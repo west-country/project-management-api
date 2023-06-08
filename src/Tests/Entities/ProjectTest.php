@@ -11,19 +11,10 @@ require 'vendor/autoload.php';
 
 class ProjectTest extends TestCase
 {
-    // protected static function getMethod($methodName) 
-    // {
-    //     $class = new ReflectionClass('ProjectManagementApi\Entities\Project');
-    //     $method = $class->getMethod($methodName);
-    //     $method->setAccessible(true);
-    //     return $method;
-    // }
-
     public static function callReflectionMethod(object $testObject, string $methodName, array $args = []): mixed
     {
         $class = new ReflectionClass('ProjectManagementApi\Entities\Project');
         $method = $class->getMethod($methodName);
-        //$method->setAccessible(true);
         return $method->invokeArgs($testObject, $args);
     }
 

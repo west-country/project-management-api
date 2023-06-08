@@ -7,15 +7,12 @@ use ProjectManagementApi\Entities\Task;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-require 'vendor/autoload.php';
-
 class TaskTest extends TestCase
 {
     public static function callReflectionMethod(object $testObject, string $methodName, array $args = []): mixed
     {
         $class = new ReflectionClass('ProjectManagementApi\Entities\Task');
         $method = $class->getMethod($methodName);
-        //$method->setAccessible(true);
         return $method->invokeArgs($testObject, $args);
     }
 

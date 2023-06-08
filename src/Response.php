@@ -7,7 +7,7 @@ use JsonSerializable;
 class Response implements JsonSerializable
 {
     private string $message;
-    private array|object $data; //private array $data
+    private array|object $data;
 
     public function __construct(string $message, array|object $data = [])
     {
@@ -20,11 +20,6 @@ class Response implements JsonSerializable
         http_response_code($code);
         $response = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         echo $response;
-        // if ($code == 200) {
-        //     echo $response;
-        // } else {
-        //     echo $response;
-        // }
     }
 
     public function jsonSerialize(): mixed

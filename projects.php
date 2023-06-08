@@ -2,19 +2,12 @@
 
 require_once 'src/DB.php';
 require_once 'src/handleParameters.php';
-require_once 'vendor/autoload.php';
+require_once 'src/handleErrors.php';
+require 'vendor/autoload.php';
 
-//DEVELOPMENT
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
-//PRODUCTION
-// ini_set('display_errors', 0);
-// ini_set('log_errors', 1);
-
-use ProjectManagementApi\Exceptions\InvalidParameterException;
 use ProjectManagementApi\Hydrators\ProjectHydrator;
 use ProjectManagementApi\Response;
+use ProjectManagementApi\Exceptions\InvalidParameterException;
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');

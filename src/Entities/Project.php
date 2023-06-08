@@ -7,11 +7,11 @@ use DateTimeImmutable;
 
 class Project implements JsonSerializable
 {
-    private int $id; //
-    private string $name; //
-    private int $client_id; //
-    private DateTimeImmutable|string|null $deadline = null; //= null
-    private ?bool $isOverdue = null; //= null
+    private int $id;
+    private string $name;
+    private int $client_id;
+    private DateTimeImmutable|string|null $deadline = null;
+    private ?bool $isOverdue = null;
     private ?string $client_name = null;
     private ?string $client_logo = null;
     private ?array $users = null;
@@ -35,7 +35,7 @@ class Project implements JsonSerializable
         $this->localeIsUSA = ($locale == 'US') ?: false;
     }
 
-    private function convertDeadlineToDateTime(): void//INDIR TESTED
+    private function convertDeadlineToDateTime(): void//TESTED + INDIR TESTED
     {
         $this->deadline = new DateTimeImmutable($this->deadline);
     }
@@ -71,8 +71,8 @@ class Project implements JsonSerializable
                 'client_name' => $this->client_name,
                 'client_logo' => $this->client_logo,
                 'users' => $this->users,
-                'deadline' => $this->deadline, //?? null,
-                'overdue' => $this->isOverdue //?? null,
+                'deadline' => $this->deadline,
+                'overdue' => $this->isOverdue
             ],
             function ($projectProperty, $responseKey) {
                 return !is_null($projectProperty)

@@ -12,11 +12,11 @@ class Task implements JsonSerializable
     private int $user_id;
     private string $name;
     private string $description;
-    private ?int $estimate = null; // only if locale=uk//=null
+    private ?int $estimate = null; // if locale=uk
     private DateTimeImmutable|string|null $deadline = null;//=null
-    private ?bool $isOverdue = null; //= null
-    private ?int $estimate_hrs = null; //if locale=us// = null
-    private ?float $estimate_days = null; // if locale=us// = null
+    private ?bool $isOverdue = null; //
+    private ?int $estimate_hrs = null; //if locale=us//
+    private ?float $estimate_days = null; // if locale=us//
     private bool $localeIsUSA;
 
     private function convertDeadlineToDateTime(): void
