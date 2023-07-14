@@ -6,9 +6,9 @@ use JsonSerializable;
 
 class Client implements JsonSerializable
 {
-    private int $id; //
-    private string $name; //
-    private ?string $logo; //
+    private int $id;
+    private string $name;
+    private ?string $logo;
 
     public function jsonSerialize(): mixed
     {

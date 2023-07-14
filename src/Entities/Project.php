@@ -22,7 +22,7 @@ class Project implements JsonSerializable
         $this->users = $users;
     }
 
-    public function __setIsOverdue(): void //TESTED
+    public function __setIsOverdue(): void
     {
         if (!is_null($this->deadline)) {
             $this->convertDeadlineToDateTime();
@@ -30,24 +30,24 @@ class Project implements JsonSerializable
         }
     }
 
-    public function __setLocaleIsUSA(string $locale): void//INDIR TESTED
+    public function __setLocaleIsUSA(string $locale): void
     {
         $this->localeIsUSA = ($locale == 'US') ?: false;
     }
 
-    private function convertDeadlineToDateTime(): void//TESTED + INDIR TESTED
+    private function convertDeadlineToDateTime(): void
     {
         $this->deadline = new DateTimeImmutable($this->deadline);
     }
 
-    private function formatDeadline(): void//INDIR TESTED
+    private function formatDeadline(): void
     {
         $this->deadline = $this->localeIsUSA ?
             $this->deadline?->format('m/d/Y') :
             $this->deadline?->format('d/m/Y');
     }
 
-    private function calculateIsOverdue(): bool//INDIR TESTED
+    private function calculateIsOverdue(): bool
     {
         $currentDate = new DateTimeImmutable();
         $projectDeadline = $this->deadline;
@@ -55,7 +55,7 @@ class Project implements JsonSerializable
         return $isOverdue;
     }
 
-    public function handleLocale(string $locale): void//TESTED
+    public function handleLocale(string $locale): void
     {
         $this->__setLocaleIsUSA($locale);
         $this->formatDeadline();

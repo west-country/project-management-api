@@ -22,7 +22,6 @@ class ProjectHydrator
 
     public static function getProjectsByClient(PDO $pdo, int $id = null, string $locale): array
     {
-        //try {
         $pdoStmt = $pdo->prepare('SELECT id, `name`, client_id, deadline 
         FROM projects WHERE client_id = :id');
         $pdoStmt->execute(['id' => $id]);

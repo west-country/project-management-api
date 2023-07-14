@@ -65,11 +65,6 @@ class ProjectTest extends TestCase
         $this->assertEquals($expectedIsOverdue, $actualIsOverdue);
     }
 
-    // public function testSuccessSetLocaleIsUSA_UK()
-    // {
-
-    // }
-
     public function testSuccessHandleLocale_US()
     {
         $deadline = new DateTimeImmutable('1900-12-31');

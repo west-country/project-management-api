@@ -12,11 +12,11 @@ class Task implements JsonSerializable
     private int $user_id;
     private string $name;
     private string $description;
-    private ?int $estimate = null; // if locale=uk
-    private DateTimeImmutable|string|null $deadline = null;//=null
-    private ?bool $isOverdue = null; //
-    private ?int $estimate_hrs = null; //if locale=us//
-    private ?float $estimate_days = null; // if locale=us//
+    private ?int $estimate = null;
+    private DateTimeImmutable|string|null $deadline = null;
+    private ?bool $isOverdue = null;
+    private ?int $estimate_hrs = null;
+    private ?float $estimate_days = null;
     private bool $localeIsUSA;
 
     private function convertDeadlineToDateTime(): void
@@ -31,7 +31,7 @@ class Task implements JsonSerializable
             $this->deadline?->format('d/m/Y');
     }
 
-    public function __setIsOverdue(): void //public
+    public function __setIsOverdue(): void
     {
         if (!is_null($this->deadline)) {
             $this->convertDeadlineToDateTime();
@@ -81,11 +81,11 @@ class Task implements JsonSerializable
             'user_id' => $this->user_id,
             'name' => $this->name,
             'description' => $this->description,
-            'estimate' => $this->estimate, // if locale=uk
+            'estimate' => $this->estimate,
             'deadline' => $this->deadline,
             'overdue' => $this->isOverdue,
-            'estimate_hrs' => $this->estimate_hrs, //if locale=us
-            'estimate_days' => $this->estimate_days, // if locale=us
+            'estimate_hrs' => $this->estimate_hrs,
+            'estimate_days' => $this->estimate_days,
         ], function ($projectProperty, $responseKey) {
             if ($this->localeIsUSA) {
                 return $responseKey !== 'estimate';

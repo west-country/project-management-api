@@ -17,7 +17,7 @@ class UserHydrator
         );
         $pdoStmt->bindParam('project_id', $id, PDO::PARAM_INT);
         $pdoStmt->execute();
-        $users = $pdoStmt->fetchAll(PDO::FETCH_CLASS, User::Class);//|PDO::FETCH_PROPS_LATE
+        $users = $pdoStmt->fetchAll(PDO::FETCH_CLASS, User::Class);
         return $users;
     }
 }
